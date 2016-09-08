@@ -10,27 +10,28 @@ app.get('/crawl', function(req, res) {
     url = "http://www.imdb.com/title/tt1229340/";
 
     request(url, function(error, response, html) {
+        var json = {};
         if (!error) {
             var $ = cheerio.load(html);
             var title, release, rating;
-            var json = {
+            json = {
                 title: "",
                 release: "",
                 rating: ""
             }
 
-            $('.title-wrapper').filter(function() {
+            $('.title_wrapper').filter(function() {
                 var data = $(this);
-                title = data.children().first().text();
-                release = data.children().first().children().text();
+                title = data.children().first().text().trim();
+                release = data.children().first().children().text().trim();
                 console.log(title, release);
                 json.title = title;
                 json.release = release;
             })
 
-            $('.ratingvalue').filter(function() {
+            $('.ratingValue').filter(function() {
                 var data = $(this);
-                rating = data.children().first().children().first().text();
+                rating = data.children().first().children().first().text().trim();
 
                 json.rating = rating;
             })
